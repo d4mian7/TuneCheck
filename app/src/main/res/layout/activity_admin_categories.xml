@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_rap">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#88000000"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Nagłówek -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="KATEGORIE"
+            android:textColor="#F5B04C"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Dodawanie kategorii -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/etNewCategory"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Nowa kategoria..."
+                android:inputType="text"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#BBBBBB"
+                android:background="@drawable/input_style"
+                android:padding="14dp"
+                android:layout_marginEnd="12dp"/>
+
+            <Button
+                android:id="@+id/btnAddCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DODAJ"
+                android:textColor="#1A1A2B"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:background="@drawable/btn_add_bg"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:minHeight="0dp"
+                android:stateListAnimator="@null"/>
+
+        </LinearLayout>
+
+        <!-- Lista kategorii -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/categoriesList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+        </ScrollView>
+
+        <!-- Przycisk powrotu -->
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="← Powrót"
+            android:textAllCaps="false"
+            android:textColor="#BBBBBB"
+            android:textSize="14sp"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="12dp"
+            android:minHeight="0dp"
+            android:stateListAnimator="@null"/>
+
+    </LinearLayout>
+
+</FrameLayout>

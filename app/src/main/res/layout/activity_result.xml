@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_rap">
+
+    <!-- przyciemnienie -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"/>
+
+    <!-- panel wyników -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:padding="32dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@drawable/quiz_panel">
+
+        <TextView
+            android:id="@+id/tvResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Twój wynik"
+            android:textColor="#F5B04C"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="32dp"
+            android:shadowColor="#000000"
+            android:shadowDx="0"
+            android:shadowDy="4"
+            android:shadowRadius="8"/>
+
+        <Button
+            android:id="@+id/btnSaveScore"
+            style="@style/QuizAnswerButton"
+            android:text="Zapisz wynik"/>
+
+        <Button
+            android:id="@+id/btnReplay"
+            style="@style/QuizAnswerButton"
+            android:text="Zagraj ponownie"/>
+
+        <Button
+            android:id="@+id/btnBackToCategories"
+            style="@style/QuizAnswerButton"
+            android:text="Powrót do kategorii"/>
+
+    </LinearLayout>
+
+</FrameLayout>

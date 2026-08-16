@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_start">
+
+    <!-- Ikonka admina - prawy górny róg -->
+    <ImageView
+        android:id="@+id/btnAdmin"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_admin_lock"
+        android:contentDescription="Panel admina"
+        android:clickable="true"
+        android:focusable="true"
+        android:alpha="0.6"/>
+
+    <!-- Dolny panel -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="150dp"
+        android:orientation="vertical"
+        android:padding="28dp"
+        android:gravity="center_horizontal"
+        android:background="@drawable/start_panel_rounded">
+
+        <EditText
+            android:id="@+id/etUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Podaj nazwę użytkownika"
+            android:inputType="textPersonName"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#BBBBBB"
+            android:background="@drawable/input_style"
+            android:padding="16dp"
+            android:layout_marginBottom="20dp"/>
+
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ROZPOCZNIJ QUIZ"
+            android:textAllCaps="true"
+            android:textSize="18sp"
+            android:textColor="#1A1A2B"
+            android:background="@drawable/start_button"
+            android:elevation="8dp"/>
+
+    </LinearLayout>
+
+</FrameLayout>

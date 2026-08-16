@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_rap">
+
+    <!-- główna zawartość -->
+    <LinearLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center"
+        android:padding="24dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WYBIERZ KATEGORIĘ"
+            android:textColor="#F5B04C"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:shadowColor="#000000"
+            android:shadowDx="0"
+            android:shadowDy="6"
+            android:shadowRadius="10"
+            android:layout_marginBottom="32dp"/>
+
+        <LinearLayout
+            android:id="@+id/layoutCategories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"/>
+
+    </LinearLayout>
+
+    <!-- spinner ładowania -->
+    <ProgressBar
+        android:id="@+id/loadingSpinner"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="#F5B04C"
+        android:visibility="visible"/>
+
+</FrameLayout>

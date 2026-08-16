@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_rap">
+
+    <!-- lekkie przyciemnienie -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"/>
+
+    <!-- panel pytania - ukryty do czasu załadowania -->
+    <LinearLayout
+        android:id="@+id/questionPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="0dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:padding="28dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@drawable/quiz_panel"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvQuestionCounter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pytanie 1 / 5"
+            android:textColor="#F5B04C"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="8dp"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_marginBottom="24dp"
+            android:max="5"
+            android:progress="1"
+            android:progressTint="#F5B04C"
+            android:progressBackgroundTint="#44F5B04C"/>
+
+        <TextView
+            android:id="@+id/tvQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Treść pytania"
+            android:textColor="#F5B04C"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="32dp"
+            android:shadowColor="#000000"
+            android:shadowDx="0"
+            android:shadowDy="4"
+            android:shadowRadius="8"/>
+
+        <Button
+            android:id="@+id/btnA"
+            style="@style/QuizAnswerButton"
+            android:text="Odpowiedź A"/>
+
+        <Button
+            android:id="@+id/btnB"
+            style="@style/QuizAnswerButton"
+            android:text="Odpowiedź B"/>
+
+        <Button
+            android:id="@+id/btnC"
+            style="@style/QuizAnswerButton"
+            android:text="Odpowiedź C"/>
+
+        <Button
+            android:id="@+id/btnD"
+            style="@style/QuizAnswerButton"
+            android:text="Odpowiedź D"/>
+
+    </LinearLayout>
+
+    <!-- spinner ładowania -->
+    <ProgressBar
+        android:id="@+id/loadingSpinner"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="#F5B04C"
+        android:visibility="visible"/>
+
+</FrameLayout>

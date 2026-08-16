@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_rap">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#88000000"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PYTANIA"
+            android:textColor="#F5B04C"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Wybór kategorii -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wybierz kategorię:"
+            android:textColor="#BBBBBB"
+            android:textSize="13sp"
+            android:layout_marginBottom="8dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_style"
+            android:padding="14dp"
+            android:layout_marginBottom="16dp"
+            android:popupBackground="#1A1A2B"/>
+
+        <!-- Przycisk dodaj pytanie -->
+        <Button
+            android:id="@+id/btnAddQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="+ DODAJ PYTANIE"
+            android:textAllCaps="false"
+            android:textColor="#1A1A2B"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:background="@drawable/btn_add_bg"
+            android:padding="14dp"
+            android:layout_marginBottom="16dp"
+            android:minHeight="0dp"
+            android:stateListAnimator="@null"/>
+
+        <!-- Licznik pytań -->
+        <TextView
+            android:id="@+id/tvQuestionCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pytania: 0"
+            android:textColor="#BBBBBB"
+            android:textSize="13sp"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- Lista pytań -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/questionsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+        </ScrollView>
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="← Powrót"
+            android:textAllCaps="false"
+            android:textColor="#BBBBBB"
+            android:textSize="14sp"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="12dp"
+            android:minHeight="0dp"
+            android:stateListAnimator="@null"/>
+
+    </LinearLayout>
+
+</FrameLayout>
