@@ -19,9 +19,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="PYTANIA"
+            android:fontFamily="@font/space_grotesk_bold"
             android:textColor="#F5B04C"
-            android:textSize="22sp"
-            android:textStyle="bold"
+            android:textSize="26sp"
+            android:letterSpacing="0.05"
             android:gravity="center"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="16dp"/>
@@ -30,9 +31,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Wybierz kategorię:"
-            android:textColor="#BBBBBB"
-            android:textSize="13sp"
+            android:text="WYBIERZ KATEGORIĘ"
+            android:fontFamily="@font/manrope_bold"
+            android:letterSpacing="0.1"
+            android:textColor="#B3FFFFFF"
+            android:textSize="12sp"
             android:layout_marginBottom="8dp"/>
 
         <Spinner
@@ -45,16 +48,23 @@
             android:popupBackground="#1A1A2B"/>
 
         <!-- Przycisk dodaj pytanie -->
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAddQuestion"
+            android:backgroundTint="@null"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="+ DODAJ PYTANIE"
+            android:text="DODAJ PYTANIE"
             android:textAllCaps="false"
+            android:fontFamily="@font/manrope_extrabold"
             android:textColor="#1A1A2B"
-            android:textStyle="bold"
             android:textSize="15sp"
-            android:background="@drawable/btn_add_bg"
+            android:letterSpacing="0.1"
+            android:drawableStart="@drawable/ic_plus"
+            android:drawablePadding="8dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:gravity="center"
+            android:background="@drawable/btn_primary_gold"
             android:padding="14dp"
             android:layout_marginBottom="16dp"
             android:minHeight="0dp"
@@ -65,9 +75,11 @@
             android:id="@+id/tvQuestionCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pytania: 0"
-            android:textColor="#BBBBBB"
-            android:textSize="13sp"
+            android:text="PYTANIA: 0"
+            android:fontFamily="@font/manrope_bold"
+            android:letterSpacing="0.1"
+            android:textColor="#B3FFFFFF"
+            android:textSize="12sp"
             android:layout_marginBottom="12dp"/>
 
         <!-- Lista pytań -->
@@ -84,13 +96,18 @@
 
         </ScrollView>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnBack"
-            android:layout_width="match_parent"
+            android:backgroundTint="@null"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="← Powrót"
+            android:layout_gravity="center_horizontal"
+            android:text="Powrót"
             android:textAllCaps="false"
-            android:textColor="#BBBBBB"
+            android:fontFamily="@font/manrope_semibold"
+            android:drawableStart="@drawable/ic_back"
+            android:drawablePadding="6dp"
+            android:textColor="#B3FFFFFF"
             android:textSize="14sp"
             android:background="@android:color/transparent"
             android:layout_marginTop="12dp"

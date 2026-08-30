@@ -25,9 +25,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="NOWE PYTANIE"
+                android:fontFamily="@font/space_grotesk_bold"
                 android:textColor="#F5B04C"
-                android:textSize="22sp"
-                android:textStyle="bold"
+                android:textSize="24sp"
+                android:letterSpacing="0.05"
                 android:gravity="center"
                 android:layout_marginBottom="8dp"/>
 
@@ -166,22 +167,25 @@
                 android:popupBackground="#1A1A2B"/>
 
             <!-- Przyciski -->
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnSaveQuestion"
+            android:backgroundTint="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="ZAPISZ PYTANIE"
+                android:fontFamily="@font/manrope_extrabold"
                 android:textColor="#1A1A2B"
-                android:textStyle="bold"
                 android:textSize="16sp"
+                android:letterSpacing="0.1"
                 android:background="@drawable/btn_add_bg"
                 android:padding="16dp"
                 android:layout_marginBottom="12dp"
                 android:minHeight="0dp"
                 android:stateListAnimator="@null"/>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnCancel"
+            android:backgroundTint="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="ANULUJ"

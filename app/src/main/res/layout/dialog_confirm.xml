@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/admin_dialog_bg">
+
+    <TextView
+        android:id="@+id/tvConfirmTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Na pewno?"
+        android:fontFamily="@font/space_grotesk_bold"
+        android:textColor="#F5B04C"
+        android:textSize="20sp"
+        android:letterSpacing="0.03"
+        android:gravity="center"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/tvConfirmMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Opis operacji"
+        android:fontFamily="@font/manrope"
+        android:textColor="#BFFFFFFF"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_marginBottom="22dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnConfirmNo"
+            android:backgroundTint="@null"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="10dp"
+            android:text="ANULUJ"
+            android:textAllCaps="true"
+            android:fontFamily="@font/manrope_bold"
+            android:textSize="14sp"
+            android:letterSpacing="0.08"
+            android:textColor="#B3FFFFFF"
+            android:background="@android:color/transparent"
+            android:minHeight="0dp"
+            android:stateListAnimator="@null" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnConfirmYes"
+            android:backgroundTint="@null"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="USUŃ"
+            android:textAllCaps="true"
+            android:fontFamily="@font/manrope_extrabold"
+            android:textSize="14sp"
+            android:letterSpacing="0.08"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/btn_danger"
+            android:minHeight="0dp"
+            android:stateListAnimator="@null" />
+    </LinearLayout>
+
+</LinearLayout>

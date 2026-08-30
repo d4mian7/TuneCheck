@@ -6,7 +6,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import okhttp3.*
-import android.widget.Toast
 import java.io.IOException
 
 class ResultActivity : AppCompatActivity() {
@@ -20,11 +19,22 @@ class ResultActivity : AppCompatActivity() {
         val categoryId = intent.getIntExtra("category_id", -1)
         val username = intent.getStringExtra("username") ?: ""
 
-        val tvResult = findViewById<TextView>(R.id.tvResult)
+        val tvPlayer = findViewById<TextView>(R.id.tvPlayer)
+        val tvScore = findViewById<TextView>(R.id.tvScore)
+        val tvScoreCaption = findViewById<TextView>(R.id.tvScoreCaption)
+        val scoreRing =
+            findViewById<com.google.android.material.progressindicator.CircularProgressIndicator>(R.id.scoreRing)
         val btnBack = findViewById<Button>(R.id.btnBackToCategories)
         val btnReplay = findViewById<Button>(R.id.btnReplay)
 
-        tvResult.text = "Gracz: $username\nWynik: $score / $total"
+        tvPlayer.text = "Gracz: $username"
+        tvScore.text = "$score/$total"
+        tvScoreCaption.text = when {
+            score == 1 -> "POPRAWNA"
+            score in 2..4 -> "POPRAWNE"
+            else -> "POPRAWNYCH"
+        }
+        scoreRing.progress = if (total > 0) score * 100 / total else 0
 
         btnBack.setOnClickListener {
             val intent = Intent(this, CategoryActivity::class.java)
@@ -56,20 +66,20 @@ class ResultActivity : AppCompatActivity() {
                 .build()
 
             val request = Request.Builder()
-                .url("http://10.0.2.2/quiz_api/save_score.php")
+                .url(ApiClient.BASE_URL + "save_score.php")
                 .post(formBody)
                 .build()
 
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     runOnUiThread {
-                        Toast.makeText(this@ResultActivity, "Błąd zapisu", Toast.LENGTH_SHORT).show()
+                        AppToast.show(this@ResultActivity, "Błąd zapisu")
                     }
                 }
 
                 override fun onResponse(call: Call, response: Response) {
                     runOnUiThread {
-                        Toast.makeText(this@ResultActivity, "Wynik zapisany", Toast.LENGTH_SHORT).show()
+                        AppToast.show(this@ResultActivity, "Wynik zapisany")
                     }
                 }
             })

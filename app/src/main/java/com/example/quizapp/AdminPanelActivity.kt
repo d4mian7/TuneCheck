@@ -11,6 +11,10 @@ class AdminPanelActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_panel)
 
+        if (savedInstanceState == null) {
+            window.decorView.postDelayed({ AppToast.show(this, "Zalogowano jako admin") }, 500)
+        }
+
         val btnManageCategories = findViewById<Button>(R.id.btnManageCategories)
         val btnManageQuestions = findViewById<Button>(R.id.btnManageQuestions)
         val btnBack = findViewById<Button>(R.id.btnAdminBack)
@@ -26,6 +30,7 @@ class AdminPanelActivity : AppCompatActivity() {
         }
 
         btnBack.setOnClickListener {
+            MainActivity.showLogoutMessage = true
             finish()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         }

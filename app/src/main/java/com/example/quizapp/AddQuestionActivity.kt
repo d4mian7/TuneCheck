@@ -85,7 +85,7 @@ class AddQuestionActivity : AppCompatActivity() {
 
         if (questionText.isEmpty() || answerA.isEmpty() || answerB.isEmpty()
             || answerC.isEmpty() || answerD.isEmpty()) {
-            Toast.makeText(this, "Wypełnij wszystkie pola", Toast.LENGTH_SHORT).show()
+            AppToast.show(this, "Wypełnij wszystkie pola")
             return
         }
 
@@ -103,7 +103,7 @@ class AddQuestionActivity : AppCompatActivity() {
             .build()
 
         val request = Request.Builder()
-            .url("http://10.0.2.2/quiz_api/add_question.php")
+            .url(ApiClient.BASE_URL + "add_question.php")
             .post(formBody)
             .build()
 
@@ -112,7 +112,7 @@ class AddQuestionActivity : AppCompatActivity() {
                 runOnUiThread {
                     btnSave.isEnabled = true
                     btnSave.text = "ZAPISZ PYTANIE"
-                    Toast.makeText(this@AddQuestionActivity, "Błąd połączenia", Toast.LENGTH_SHORT).show()
+                    AppToast.show(this@AddQuestionActivity, "Błąd połączenia")
                 }
             }
 
@@ -122,13 +122,13 @@ class AddQuestionActivity : AppCompatActivity() {
 
                 runOnUiThread {
                     if (obj.getString("status") == "ok") {
-                        Toast.makeText(this@AddQuestionActivity, "Pytanie dodane!", Toast.LENGTH_SHORT).show()
+                        AppToast.show(this@AddQuestionActivity, "Pytanie dodane!")
                         finish()
                         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
                     } else {
                         btnSave.isEnabled = true
                         btnSave.text = "ZAPISZ PYTANIE"
-                        Toast.makeText(this@AddQuestionActivity, obj.getString("message"), Toast.LENGTH_SHORT).show()
+                        AppToast.show(this@AddQuestionActivity, obj.getString("message"))
                     }
                 }
             }

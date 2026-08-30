@@ -2,13 +2,63 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="@drawable/bg_rap">
 
     <!-- lekkie przyciemnienie -->
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#66000000"/>
+        android:background="#8C12101D"/>
+
+    <!-- pasek timera: tor + wypełnienie -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_gravity="top"
+        android:background="#24FFFFFF"/>
+
+    <View
+        android:id="@+id/timerFill"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_gravity="top"
+        android:background="#F5B04C"/>
+
+    <!-- chip z pozostałym czasem -->
+    <LinearLayout
+        android:id="@+id/timerChip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="13dp"
+        android:paddingEnd="13dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:background="@drawable/chip_timer">
+
+        <ImageView
+            android:id="@+id/ivTimerIcon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/ic_clock"
+            android:importantForAccessibility="no"/>
+
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:text="10 s"
+            android:fontFamily="@font/manrope_extrabold"
+            android:textSize="13sp"
+            android:letterSpacing="0.08"
+            android:textColor="#F5B04C"/>
+    </LinearLayout>
 
     <!-- panel pytania - ukryty do czasu załadowania -->
     <LinearLayout
@@ -21,66 +71,252 @@
         android:layout_marginEnd="24dp"
         android:padding="28dp"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:background="@drawable/quiz_panel"
         android:visibility="gone">
 
-        <TextView
-            android:id="@+id/tvQuestionCounter"
+        <!-- licznik pytania + kropki postępu -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pytanie 1 / 5"
-            android:textColor="#F5B04C"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_marginBottom="8dp"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="18dp">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:layout_marginBottom="24dp"
-            android:max="5"
-            android:progress="1"
-            android:progressTint="#F5B04C"
-            android:progressBackgroundTint="#44F5B04C"/>
+            <TextView
+                android:id="@+id/tvQuestionCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PYTANIE 1 / 5"
+                android:fontFamily="@font/manrope_extrabold"
+                android:textColor="#F5B04C"
+                android:textSize="12sp"
+                android:letterSpacing="0.15"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:background="@drawable/chip_pill"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+
+            <LinearLayout
+                android:id="@+id/dotsContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvQuestion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Treść pytania"
+            android:fontFamily="@font/manrope_extrabold"
             android:textColor="#F5B04C"
             android:textSize="22sp"
-            android:textStyle="bold"
             android:gravity="center"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="28dp"
             android:shadowColor="#000000"
             android:shadowDx="0"
             android:shadowDy="4"
             android:shadowRadius="8"/>
 
-        <Button
-            android:id="@+id/btnA"
-            style="@style/QuizAnswerButton"
-            android:text="Odpowiedź A"/>
+        <LinearLayout
+            android:id="@+id/answerA"
+            android:stateListAnimator="@animator/press_scale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/quiz_answer_bg"
+            android:clickable="true"
+            android:focusable="true">
 
-        <Button
-            android:id="@+id/btnB"
-            style="@style/QuizAnswerButton"
-            android:text="Odpowiedź B"/>
+            <TextView
+                android:id="@+id/tvBadgeA"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="A"
+                android:fontFamily="@font/manrope_extrabold"
+                android:textColor="#F5B04C"
+                android:textSize="13sp"
+                android:background="@drawable/answer_badge"/>
 
-        <Button
-            android:id="@+id/btnC"
-            style="@style/QuizAnswerButton"
-            android:text="Odpowiedź C"/>
+            <TextView
+                android:id="@+id/tvLabelA"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="14dp"
+                android:text="Odpowiedź A"
+                android:fontFamily="@font/manrope_semibold"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"/>
 
-        <Button
-            android:id="@+id/btnD"
-            style="@style/QuizAnswerButton"
-            android:text="Odpowiedź D"/>
+            <ImageView
+                android:id="@+id/ivCheckA"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_check"
+                android:visibility="gone"
+                android:importantForAccessibility="no"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/answerB"
+            android:stateListAnimator="@animator/press_scale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/quiz_answer_bg"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/tvBadgeB"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="B"
+                android:fontFamily="@font/manrope_extrabold"
+                android:textColor="#F5B04C"
+                android:textSize="13sp"
+                android:background="@drawable/answer_badge"/>
+
+            <TextView
+                android:id="@+id/tvLabelB"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="14dp"
+                android:text="Odpowiedź B"
+                android:fontFamily="@font/manrope_semibold"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:id="@+id/ivCheckB"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_check"
+                android:visibility="gone"
+                android:importantForAccessibility="no"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/answerC"
+            android:stateListAnimator="@animator/press_scale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/quiz_answer_bg"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/tvBadgeC"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="C"
+                android:fontFamily="@font/manrope_extrabold"
+                android:textColor="#F5B04C"
+                android:textSize="13sp"
+                android:background="@drawable/answer_badge"/>
+
+            <TextView
+                android:id="@+id/tvLabelC"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="14dp"
+                android:text="Odpowiedź C"
+                android:fontFamily="@font/manrope_semibold"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:id="@+id/ivCheckC"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_check"
+                android:visibility="gone"
+                android:importantForAccessibility="no"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/answerD"
+            android:stateListAnimator="@animator/press_scale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:background="@drawable/quiz_answer_bg"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/tvBadgeD"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="D"
+                android:fontFamily="@font/manrope_extrabold"
+                android:textColor="#F5B04C"
+                android:textSize="13sp"
+                android:background="@drawable/answer_badge"/>
+
+            <TextView
+                android:id="@+id/tvLabelD"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="14dp"
+                android:text="Odpowiedź D"
+                android:fontFamily="@font/manrope_semibold"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:id="@+id/ivCheckD"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_check"
+                android:visibility="gone"
+                android:importantForAccessibility="no"/>
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -2,4 +2,19 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Paleta TuneCheck -->
+    <color name="bg_dark">#12101D</color>
+    <color name="panel">#1A1A2B</color>
+    <color name="gold">#F5B04C</color>
+    <color name="gold_light">#FFC96B</color>
+    <color name="violet">#3A2C7A</color>
+    <color name="answer_green">#2E7D32</color>
+    <color name="answer_green_light">#66BB6A</color>
+    <color name="answer_red">#B71C1C</color>
+    <color name="timer_red">#EF5350</color>
+    <color name="timer_orange">#F0813C</color>
+    <color name="delete_red">#FF4444</color>
+    <color name="delete_red_light">#FF6B6B</color>
+    <color name="text_dim">#B3FFFFFF</color>
 </resources>

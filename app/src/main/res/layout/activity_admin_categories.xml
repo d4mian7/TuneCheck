@@ -20,9 +20,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="KATEGORIE"
+            android:fontFamily="@font/space_grotesk_bold"
             android:textColor="#F5B04C"
-            android:textSize="22sp"
-            android:textStyle="bold"
+            android:textSize="26sp"
+            android:letterSpacing="0.05"
             android:gravity="center"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"/>
@@ -42,21 +43,26 @@
                 android:layout_weight="1"
                 android:hint="Nowa kategoria..."
                 android:inputType="text"
+                android:fontFamily="@font/manrope"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#BBBBBB"
                 android:background="@drawable/input_style"
                 android:padding="14dp"
                 android:layout_marginEnd="12dp"/>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnAddCategory"
+            android:backgroundTint="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="DODAJ"
+                android:fontFamily="@font/manrope_extrabold"
                 android:textColor="#1A1A2B"
-                android:textStyle="bold"
                 android:textSize="14sp"
-                android:background="@drawable/btn_add_bg"
+                android:letterSpacing="0.08"
+                android:drawableStart="@drawable/ic_plus"
+                android:drawablePadding="6dp"
+                android:background="@drawable/btn_primary_gold"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:paddingTop="14dp"
@@ -81,13 +87,18 @@
         </ScrollView>
 
         <!-- Przycisk powrotu -->
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnBack"
-            android:layout_width="match_parent"
+            android:backgroundTint="@null"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="← Powrót"
+            android:layout_gravity="center_horizontal"
+            android:text="Powrót"
             android:textAllCaps="false"
-            android:textColor="#BBBBBB"
+            android:fontFamily="@font/manrope_semibold"
+            android:drawableStart="@drawable/ic_back"
+            android:drawablePadding="6dp"
+            android:textColor="#B3FFFFFF"
             android:textSize="14sp"
             android:background="@android:color/transparent"
             android:layout_marginTop="12dp"

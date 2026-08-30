@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_rap">
 
+    <!-- przyciemnienie -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#8C12101D"/>
+
     <!-- główna zawartość -->
     <LinearLayout
         android:id="@+id/contentLayout"
@@ -16,18 +22,35 @@
         android:visibility="gone">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TUNECHECK"
+            android:fontFamily="@font/manrope_extrabold"
+            android:textColor="#A6FFFFFF"
+            android:textSize="12sp"
+            android:letterSpacing="0.35"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="WYBIERZ KATEGORIĘ"
+            android:fontFamily="@font/space_grotesk_bold"
             android:textColor="#F5B04C"
-            android:textSize="34sp"
-            android:textStyle="bold"
+            android:textSize="27sp"
+            android:letterSpacing="0.05"
             android:gravity="center"
             android:shadowColor="#000000"
             android:shadowDx="0"
             android:shadowDy="6"
             android:shadowRadius="10"
+            android:layout_marginBottom="10dp"/>
+
+        <View
+            android:layout_width="56dp"
+            android:layout_height="3dp"
+            android:background="#F5B04C"
             android:layout_marginBottom="32dp"/>
 
         <LinearLayout

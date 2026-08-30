@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_rap">
@@ -8,7 +9,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#66000000"/>
+        android:background="#9912101D"/>
 
     <!-- panel wyników -->
     <LinearLayout
@@ -23,34 +24,139 @@
         android:background="@drawable/quiz_panel">
 
         <TextView
-            android:id="@+id/tvResult"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Twój wynik"
+            android:text="TWÓJ WYNIK"
+            android:fontFamily="@font/space_grotesk_bold"
             android:textColor="#F5B04C"
-            android:textSize="22sp"
-            android:textStyle="bold"
+            android:textSize="30sp"
+            android:letterSpacing="0.05"
             android:gravity="center"
-            android:layout_marginBottom="32dp"
-            android:shadowColor="#000000"
-            android:shadowDx="0"
-            android:shadowDy="4"
-            android:shadowRadius="8"/>
+            android:layout_marginBottom="6dp"/>
 
-        <Button
+        <TextView
+            android:id="@+id/tvPlayer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gracz: —"
+            android:fontFamily="@font/manrope_semibold"
+            android:textColor="#BFFFFFFF"
+            android:textSize="14sp"
+            android:letterSpacing="0.05"
+            android:gravity="center"
+            android:layout_marginBottom="22dp"/>
+
+        <FrameLayout
+            android:layout_width="172dp"
+            android:layout_height="172dp"
+            android:layout_marginBottom="22dp">
+
+            <View
+                android:layout_width="172dp"
+                android:layout_height="172dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ring_track"/>
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/scoreRing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:max="100"
+                android:progress="0"
+                app:indicatorSize="172dp"
+                app:trackThickness="14dp"
+                app:trackCornerRadius="7dp"
+                app:indicatorTrackGapSize="0dp"
+                app:indicatorColor="#F5B04C"
+                app:trackColor="@android:color/transparent"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/tvScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0/0"
+                    android:fontFamily="@font/space_grotesk_bold"
+                    android:textColor="#FFFFFF"
+                    android:textSize="42sp"/>
+
+                <TextView
+                    android:id="@+id/tvScoreCaption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="POPRAWNYCH"
+                    android:fontFamily="@font/manrope_bold"
+                    android:textColor="#99FFFFFF"
+                    android:textSize="12sp"
+                    android:letterSpacing="0.15"/>
+            </LinearLayout>
+        </FrameLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSaveScore"
-            style="@style/QuizAnswerButton"
-            android:text="Zapisz wynik"/>
+            android:backgroundTint="@null"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:text="ZAPISZ WYNIK"
+            android:textAllCaps="true"
+            android:maxLines="1"
+            android:fontFamily="@font/manrope_extrabold"
+            android:textSize="15sp"
+            android:letterSpacing="0.08"
+            android:textColor="#1A1A2B"
+            android:background="@drawable/btn_primary_gold"
+            android:drawableStart="@drawable/ic_save"
+            android:drawablePadding="10dp"
+            android:paddingStart="22dp"
+            android:paddingEnd="22dp"
+            android:gravity="center"
+            android:stateListAnimator="@null"
+            android:layout_marginBottom="12dp"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnReplay"
-            style="@style/QuizAnswerButton"
-            android:text="Zagraj ponownie"/>
+            android:backgroundTint="@null"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:text="ZAGRAJ PONOWNIE"
+            android:textAllCaps="true"
+            android:maxLines="1"
+            android:fontFamily="@font/manrope_extrabold"
+            android:textSize="15sp"
+            android:letterSpacing="0.08"
+            android:textColor="#F5B04C"
+            android:background="@drawable/btn_outline_gold"
+            android:drawableStart="@drawable/ic_replay"
+            android:drawablePadding="10dp"
+            android:paddingStart="22dp"
+            android:paddingEnd="22dp"
+            android:gravity="center"
+            android:stateListAnimator="@null"
+            android:layout_marginBottom="8dp"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnBackToCategories"
-            style="@style/QuizAnswerButton"
-            android:text="Powrót do kategorii"/>
+            android:backgroundTint="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:text="Powrót do kategorii"
+            android:textAllCaps="false"
+            android:fontFamily="@font/manrope_semibold"
+            android:textSize="14sp"
+            android:letterSpacing="0.05"
+            android:textColor="#B3FFFFFF"
+            android:background="@android:color/transparent"
+            android:drawableStart="@drawable/ic_back"
+            android:drawablePadding="6dp"
+            android:minHeight="0dp"
+            android:stateListAnimator="@null"/>
 
     </LinearLayout>
 

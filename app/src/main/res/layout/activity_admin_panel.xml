@@ -7,7 +7,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#88000000"/>
+        android:background="#B312101D"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,60 +24,83 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="PANEL ADMINA"
+            android:fontFamily="@font/space_grotesk_bold"
             android:textColor="#F5B04C"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:textSize="28sp"
+            android:letterSpacing="0.05"
             android:gravity="center"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="6dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Zarządzaj quizem"
-            android:textColor="#BBBBBB"
+            android:fontFamily="@font/manrope"
+            android:textColor="#B3FFFFFF"
             android:textSize="14sp"
             android:gravity="center"
-            android:layout_marginBottom="32dp"/>
+            android:layout_marginBottom="28dp"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnManageCategories"
+            android:backgroundTint="@null"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="📂  Zarządzaj kategoriami"
+            android:text="Zarządzaj kategoriami"
             android:textAllCaps="false"
+            android:fontFamily="@font/manrope_bold"
             android:textSize="16sp"
             android:textColor="#FFFFFF"
-            android:textStyle="bold"
             android:background="@drawable/admin_button_bg"
-            android:padding="18dp"
-            android:layout_marginBottom="16dp"
+            android:drawableStart="@drawable/ic_folder"
+            android:drawableEnd="@drawable/ic_chevron_right"
+            android:drawablePadding="14dp"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:paddingTop="18dp"
+            android:paddingBottom="18dp"
+            android:gravity="center_vertical|start"
+            android:layout_marginBottom="14dp"
             android:minHeight="0dp"
             android:stateListAnimator="@null"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnManageQuestions"
+            android:backgroundTint="@null"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="❓  Zarządzaj pytaniami"
+            android:text="Zarządzaj pytaniami"
             android:textAllCaps="false"
+            android:fontFamily="@font/manrope_bold"
             android:textSize="16sp"
             android:textColor="#FFFFFF"
-            android:textStyle="bold"
             android:background="@drawable/admin_button_bg"
-            android:padding="18dp"
-            android:layout_marginBottom="24dp"
+            android:drawableStart="@drawable/ic_help_circle"
+            android:drawableEnd="@drawable/ic_chevron_right"
+            android:drawablePadding="14dp"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:paddingTop="18dp"
+            android:paddingBottom="18dp"
+            android:gravity="center_vertical|start"
+            android:layout_marginBottom="22dp"
             android:minHeight="0dp"
             android:stateListAnimator="@null"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAdminBack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:backgroundTint="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
             android:text="WYLOGUJ"
             android:textAllCaps="true"
+            android:fontFamily="@font/manrope_extrabold"
             android:textSize="14sp"
-            android:textColor="#FF8888"
+            android:letterSpacing="0.12"
+            android:textColor="#EF5350"
             android:background="@android:color/transparent"
+            android:drawableStart="@drawable/ic_logout"
+            android:drawablePadding="8dp"
             android:minHeight="0dp"
             android:stateListAnimator="@null"/>
 

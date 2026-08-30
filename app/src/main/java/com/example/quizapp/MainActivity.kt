@@ -10,14 +10,30 @@ import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        /** Ustawiane przez AdminPanelActivity przy wylogowaniu. */
+        var showLogoutMessage = false
+    }
+
     private val client = ApiClient.client
+
+    override fun onResume() {
+        super.onResume()
+        if (showLogoutMessage) {
+            showLogoutMessage = false
+            // schowaj klawiaturę i zdejmij fokus z pola, żeby komunikat był widoczny
+            findViewById<EditText>(R.id.etUsername)?.clearFocus()
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+            imm.hideSoftInputFromWindow(window.decorView.windowToken, 0)
+            window.decorView.postDelayed({ AppToast.show(this, "Wylogowano z panelu admina") }, 500)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,13 +41,13 @@ class MainActivity : AppCompatActivity() {
 
         val btnStart = findViewById<Button>(R.id.btnStart)
         val etUsername = findViewById<EditText>(R.id.etUsername)
-        val btnAdmin = findViewById<ImageView>(R.id.btnAdmin)
+        val btnAdmin = findViewById<android.view.View>(R.id.btnAdmin)
 
         btnStart.setOnClickListener {
             val username = etUsername.text.toString().trim()
 
             if (username.isEmpty()) {
-                Toast.makeText(this, "Podaj nazwę użytkownika", Toast.LENGTH_SHORT).show()
+                AppToast.show(this, "Podaj nazwę użytkownika")
                 return@setOnClickListener
             }
 
@@ -44,11 +60,23 @@ class MainActivity : AppCompatActivity() {
         btnAdmin.setOnClickListener {
             showAdminLoginDialog()
         }
+
+        // gdy klawiatura jest widoczna, unieś całą scenę (tło + panel), by przycisk był tuż nad nią
+        val contentRoot = findViewById<android.view.View>(R.id.contentRoot)
+        val density = resources.displayMetrics.density
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(
+            findViewById(android.R.id.content)
+        ) { _, insets ->
+            val ime = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.ime()).bottom
+            val lift = ime - 106 * density
+            contentRoot.translationY = if (lift > 0) -lift else 0f
+            insets
+        }
         // Preload - rozgrzewamy połączenie z serwerem
         Thread {
             try {
                 val request = Request.Builder()
-                    .url("http://10.0.2.2/quiz_api/get_categories.php")
+                    .url(ApiClient.BASE_URL + "get_categories.php")
                     .build()
                 ApiClient.client.newCall(request).execute().close()
             } catch (_: Exception) {}
@@ -60,18 +88,29 @@ class MainActivity : AppCompatActivity() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_admin_login)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.88).toInt(),
+            android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+        )
         dialog.setCancelable(true)
 
         val etLogin = dialog.findViewById<EditText>(R.id.etAdminLogin)
         val etPassword = dialog.findViewById<EditText>(R.id.etAdminPassword)
         val btnLogin = dialog.findViewById<Button>(R.id.btnAdminLogin)
+        val tvError = dialog.findViewById<android.widget.TextView>(R.id.tvLoginError)
+
+        fun showError(message: String) {
+            tvError.text = message
+            tvError.visibility = android.view.View.VISIBLE
+        }
 
         btnLogin.setOnClickListener {
             val login = etLogin.text.toString().trim()
             val password = etPassword.text.toString().trim()
+            tvError.visibility = android.view.View.GONE
 
             if (login.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Podaj login i hasło", Toast.LENGTH_SHORT).show()
+                showError("Podaj login i hasło")
                 return@setOnClickListener
             }
 
@@ -84,7 +123,7 @@ class MainActivity : AppCompatActivity() {
                 .build()
 
             val request = Request.Builder()
-                .url("http://10.0.2.2/quiz_api/admin_login.php")
+                .url(ApiClient.BASE_URL + "admin_login.php")
                 .post(formBody)
                 .build()
 
@@ -93,7 +132,7 @@ class MainActivity : AppCompatActivity() {
                     runOnUiThread {
                         btnLogin.isEnabled = true
                         btnLogin.text = "ZALOGUJ"
-                        Toast.makeText(this@MainActivity, "Błąd połączenia z serwerem", Toast.LENGTH_SHORT).show()
+                        showError("Błąd połączenia z serwerem")
                     }
                 }
 
@@ -104,14 +143,13 @@ class MainActivity : AppCompatActivity() {
                     runOnUiThread {
                         if (obj.getString("status") == "ok") {
                             dialog.dismiss()
-                            Toast.makeText(this@MainActivity, "Zalogowano jako admin", Toast.LENGTH_SHORT).show()
                             val intent = Intent(this@MainActivity, AdminPanelActivity::class.java)
                             startActivity(intent)
                             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                         } else {
                             btnLogin.isEnabled = true
                             btnLogin.text = "ZALOGUJ"
-                            Toast.makeText(this@MainActivity, obj.getString("message"), Toast.LENGTH_SHORT).show()
+                            showError(obj.getString("message"))
                         }
                     }
                 }

@@ -1,6 +1,5 @@
 package com.example.quizapp
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -38,7 +37,7 @@ class AdminQuestionsActivity : AppCompatActivity() {
 
         btnAddQuestion.setOnClickListener {
             if (selectedCategoryId == -1) {
-                Toast.makeText(this, "Najpierw wybierz kategorię", Toast.LENGTH_SHORT).show()
+                AppToast.show(this, "Najpierw wybierz kategorię")
                 return@setOnClickListener
             }
             val intent = Intent(this, AddQuestionActivity::class.java)
@@ -65,13 +64,13 @@ class AdminQuestionsActivity : AppCompatActivity() {
 
     private fun loadCategories() {
         val request = Request.Builder()
-            .url("http://10.0.2.2/quiz_api/get_categories.php")
+            .url(ApiClient.BASE_URL + "get_categories.php")
             .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
-                    Toast.makeText(this@AdminQuestionsActivity, "Błąd połączenia", Toast.LENGTH_SHORT).show()
+                    AppToast.show(this@AdminQuestionsActivity, "Błąd połączenia")
                 }
             }
 
@@ -128,13 +127,13 @@ class AdminQuestionsActivity : AppCompatActivity() {
 
     private fun loadQuestions(categoryId: Int) {
         val request = Request.Builder()
-            .url("http://10.0.2.2/quiz_api/get_questions_admin.php?category_id=$categoryId")
+            .url("${ApiClient.BASE_URL}get_questions_admin.php?category_id=$categoryId")
             .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
-                    Toast.makeText(this@AdminQuestionsActivity, "Błąd połączenia", Toast.LENGTH_SHORT).show()
+                    AppToast.show(this@AdminQuestionsActivity, "Błąd połączenia")
                 }
             }
 
@@ -144,7 +143,7 @@ class AdminQuestionsActivity : AppCompatActivity() {
 
                 runOnUiThread {
                     questionsList.removeAllViews()
-                    tvQuestionCount.text = "Pytania: ${jsonArray.length()}"
+                    tvQuestionCount.text = "PYTANIA: ${jsonArray.length()}"
 
                     if (jsonArray.length() == 0) {
                         val emptyText = TextView(this@AdminQuestionsActivity).apply {
@@ -193,44 +192,41 @@ class AdminQuestionsActivity : AppCompatActivity() {
         val tvQuestion = TextView(this).apply {
             text = questionText
             setTextColor(Color.WHITE)
+            typeface = androidx.core.content.res.ResourcesCompat.getFont(context, R.font.manrope_semibold)
             textSize = 14f
             maxLines = 2
         }
 
         val tvCorrect = TextView(this).apply {
-            text = "Poprawna: $correct"
+            text = "POPRAWNA: $correct"
             setTextColor(Color.parseColor("#F5B04C"))
+            typeface = androidx.core.content.res.ResourcesCompat.getFont(context, R.font.manrope_extrabold)
+            letterSpacing = 0.1f
             textSize = 11f
-            setPadding(0, 4, 0, 0)
+            setPadding(0, 8, 0, 0)
         }
 
         textContainer.addView(tvQuestion)
         textContainer.addView(tvCorrect)
 
-        val btnDelete = Button(this).apply {
-            text = "USUŃ"
-            setTextColor(Color.parseColor("#FF6666"))
-            textSize = 12f
-            setBackgroundResource(R.drawable.btn_delete_bg)
-            setPadding(24, 12, 24, 12)
-            minHeight = 0
-            minimumHeight = 0
-            stateListAnimator = null
-            val params = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
+        val density = resources.displayMetrics.density
+        val btnDelete = android.widget.ImageButton(this).apply {
+            setImageResource(R.drawable.ic_trash)
+            background = GlowBackgrounds.trash(context)
+            scaleType = android.widget.ImageView.ScaleType.CENTER
+            stateListAnimator = android.animation.AnimatorInflater.loadStateListAnimator(context, R.animator.press_scale)
+            contentDescription = "Usuń pytanie"
+            val size = (40 * density).toInt()
+            val params = LinearLayout.LayoutParams(size, size)
             params.marginStart = 12
             layoutParams = params
         }
+        row.clipChildren = false
+        row.clipToPadding = false
+        questionsList.clipChildren = false
 
         btnDelete.setOnClickListener {
-            AlertDialog.Builder(this)
-                .setTitle("Usunąć pytanie?")
-                .setMessage(questionText)
-                .setPositiveButton("Usuń") { _, _ -> deleteQuestion(id) }
-                .setNegativeButton("Anuluj", null)
-                .show()
+            AppDialogs.confirm(this, "Usunąć pytanie?", questionText) { deleteQuestion(id) }
         }
 
         row.addView(textContainer)
@@ -244,14 +240,14 @@ class AdminQuestionsActivity : AppCompatActivity() {
             .build()
 
         val request = Request.Builder()
-            .url("http://10.0.2.2/quiz_api/delete_question.php")
+            .url(ApiClient.BASE_URL + "delete_question.php")
             .post(formBody)
             .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
-                    Toast.makeText(this@AdminQuestionsActivity, "Błąd połączenia", Toast.LENGTH_SHORT).show()
+                    AppToast.show(this@AdminQuestionsActivity, "Błąd połączenia")
                 }
             }
 
@@ -262,12 +258,12 @@ class AdminQuestionsActivity : AppCompatActivity() {
                     try {
                         val obj = JSONObject(json)
                         if (obj.getString("status") == "ok") {
-                            Toast.makeText(this@AdminQuestionsActivity, "Pytanie usunięte", Toast.LENGTH_SHORT).show()
+                            AppToast.show(this@AdminQuestionsActivity, "Pytanie usunięte")
                         } else {
-                            Toast.makeText(this@AdminQuestionsActivity, obj.getString("message"), Toast.LENGTH_SHORT).show()
+                            AppToast.show(this@AdminQuestionsActivity, obj.getString("message"))
                         }
                     } catch (e: Exception) {
-                        Toast.makeText(this@AdminQuestionsActivity, "Błąd odpowiedzi serwera", Toast.LENGTH_SHORT).show()
+                        AppToast.show(this@AdminQuestionsActivity, "Błąd odpowiedzi serwera")
                     }
                     loadQuestions(selectedCategoryId)
                 }

@@ -1,6 +1,5 @@
 package com.example.quizapp
 
-import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
@@ -38,13 +37,13 @@ class AdminCategoriesActivity : AppCompatActivity() {
 
     private fun loadCategories() {
         val request = Request.Builder()
-            .url("http://10.0.2.2/quiz_api/get_categories.php")
+            .url(ApiClient.BASE_URL + "get_categories.php")
             .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
-                    Toast.makeText(this@AdminCategoriesActivity, "Błąd połączenia", Toast.LENGTH_SHORT).show()
+                    AppToast.show(this@AdminCategoriesActivity, "Błąd połączenia")
                 }
             }
 
@@ -93,28 +92,30 @@ class AdminCategoriesActivity : AppCompatActivity() {
         val tvName = TextView(this).apply {
             text = name
             setTextColor(Color.WHITE)
+            typeface = androidx.core.content.res.ResourcesCompat.getFont(context, R.font.manrope_semibold)
             textSize = 16f
             layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
         }
 
-        val btnDelete = Button(this).apply {
-            text = "USUŃ"
-            setTextColor(Color.parseColor("#FF6666"))
-            textSize = 12f
-            setBackgroundResource(R.drawable.btn_delete_bg)
-            setPadding(24, 12, 24, 12)
-            minHeight = 0
-            minimumHeight = 0
-            stateListAnimator = null
+        val density = resources.displayMetrics.density
+        val btnDelete = android.widget.ImageButton(this).apply {
+            setImageResource(R.drawable.ic_trash)
+            background = GlowBackgrounds.trash(context)
+            scaleType = android.widget.ImageView.ScaleType.CENTER
+            stateListAnimator = android.animation.AnimatorInflater.loadStateListAnimator(context, R.animator.press_scale)
+            contentDescription = "Usuń kategorię"
+            layoutParams = LinearLayout.LayoutParams((40 * density).toInt(), (40 * density).toInt())
         }
+        row.clipChildren = false
+        row.clipToPadding = false
+        categoriesList.clipChildren = false
 
         btnDelete.setOnClickListener {
-            AlertDialog.Builder(this)
-                .setTitle("Usunąć kategorię?")
-                .setMessage("\"$name\" zostanie usunięta wraz ze wszystkimi pytaniami i wynikami.")
-                .setPositiveButton("Usuń") { _, _ -> deleteCategory(id) }
-                .setNegativeButton("Anuluj", null)
-                .show()
+            AppDialogs.confirm(
+                this,
+                "Usunąć kategorię?",
+                "\"$name\" zostanie usunięta wraz ze wszystkimi pytaniami i wynikami."
+            ) { deleteCategory(id) }
         }
 
         row.addView(tvName)
@@ -125,7 +126,7 @@ class AdminCategoriesActivity : AppCompatActivity() {
     private fun addCategory() {
         val name = etNewCategory.text.toString().trim()
         if (name.isEmpty()) {
-            Toast.makeText(this, "Podaj nazwę kategorii", Toast.LENGTH_SHORT).show()
+            AppToast.show(this, "Podaj nazwę kategorii")
             return
         }
 
@@ -136,7 +137,7 @@ class AdminCategoriesActivity : AppCompatActivity() {
             .build()
 
         val request = Request.Builder()
-            .url("http://10.0.2.2/quiz_api/add_category.php")
+            .url(ApiClient.BASE_URL + "add_category.php")
             .post(formBody)
             .build()
 
@@ -144,7 +145,7 @@ class AdminCategoriesActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
                     btnAddCategory.isEnabled = true
-                    Toast.makeText(this@AdminCategoriesActivity, "Błąd połączenia", Toast.LENGTH_SHORT).show()
+                    AppToast.show(this@AdminCategoriesActivity, "Błąd połączenia")
                 }
             }
 
@@ -156,10 +157,10 @@ class AdminCategoriesActivity : AppCompatActivity() {
                     btnAddCategory.isEnabled = true
                     if (obj.getString("status") == "ok") {
                         etNewCategory.text.clear()
-                        Toast.makeText(this@AdminCategoriesActivity, "Kategoria dodana", Toast.LENGTH_SHORT).show()
+                        AppToast.show(this@AdminCategoriesActivity, "Kategoria dodana")
                         loadCategories()
                     } else {
-                        Toast.makeText(this@AdminCategoriesActivity, obj.getString("message"), Toast.LENGTH_SHORT).show()
+                        AppToast.show(this@AdminCategoriesActivity, obj.getString("message"))
                     }
                 }
             }
@@ -172,14 +173,14 @@ class AdminCategoriesActivity : AppCompatActivity() {
             .build()
 
         val request = Request.Builder()
-            .url("http://10.0.2.2/quiz_api/delete_category.php")
+            .url(ApiClient.BASE_URL + "delete_category.php")
             .post(formBody)
             .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
-                    Toast.makeText(this@AdminCategoriesActivity, "Błąd połączenia", Toast.LENGTH_SHORT).show()
+                    AppToast.show(this@AdminCategoriesActivity, "Błąd połączenia")
                 }
             }
 
@@ -190,12 +191,12 @@ class AdminCategoriesActivity : AppCompatActivity() {
                     try {
                         val obj = JSONObject(json)
                         if (obj.getString("status") == "ok") {
-                            Toast.makeText(this@AdminCategoriesActivity, "Kategoria usunięta", Toast.LENGTH_SHORT).show()
+                            AppToast.show(this@AdminCategoriesActivity, "Kategoria usunięta")
                         } else {
-                            Toast.makeText(this@AdminCategoriesActivity, obj.getString("message"), Toast.LENGTH_SHORT).show()
+                            AppToast.show(this@AdminCategoriesActivity, obj.getString("message"))
                         }
                     } catch (e: Exception) {
-                        Toast.makeText(this@AdminCategoriesActivity, "Błąd odpowiedzi serwera", Toast.LENGTH_SHORT).show()
+                        AppToast.show(this@AdminCategoriesActivity, "Błąd odpowiedzi serwera")
                     }
                     loadCategories()
                 }

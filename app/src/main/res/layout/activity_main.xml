@@ -2,32 +2,89 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_start">
+    android:background="#12101D">
+
+  <!-- cała scena (tło + zawartość) — unoszona razem nad klawiaturę -->
+  <FrameLayout
+    android:id="@+id/contentRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_start"
+        android:importantForAccessibility="no"/>
 
     <!-- Ikonka admina - prawy górny róg -->
-    <ImageView
+    <FrameLayout
         android:id="@+id/btnAdmin"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
         android:layout_gravity="top|end"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="20dp"
-        android:src="@drawable/ic_admin_lock"
-        android:contentDescription="Panel admina"
+        android:background="@drawable/glass_tile_bg"
         android:clickable="true"
         android:focusable="true"
-        android:alpha="0.6"/>
+        android:contentDescription="Panel admina">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_admin_lock"
+            android:importantForAccessibility="no" />
+    </FrameLayout>
 
     <!-- Dolny panel -->
     <LinearLayout
+        android:id="@+id/startPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="150dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="88dp"
         android:orientation="vertical"
-        android:padding="28dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="26dp"
+        android:paddingBottom="6dp"
         android:gravity="center_horizontal"
         android:background="@drawable/start_panel_rounded">
+
+        <!-- Ozdobny separator z ikoną korektora -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="18dp">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1.5dp"
+                android:layout_weight="1"
+                android:background="@drawable/divider_fade_left" />
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="14dp"
+                android:src="@drawable/ic_equalizer"
+                android:importantForAccessibility="no" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1.5dp"
+                android:layout_weight="1"
+                android:background="@drawable/divider_fade_right" />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/etUsername"
@@ -35,23 +92,55 @@
             android:layout_height="wrap_content"
             android:hint="Podaj nazwę użytkownika"
             android:inputType="textPersonName"
+            android:fontFamily="@font/manrope"
+            android:textSize="16sp"
             android:textColor="#FFFFFF"
             android:textColorHint="#BBBBBB"
             android:background="@drawable/input_style"
             android:padding="16dp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"/>
 
-        <Button
-            android:id="@+id/btnStart"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/glow_start"
+            android:importantForAccessibility="no"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnStart"
+            android:backgroundTint="@null"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:text="ROZPOCZNIJ QUIZ"
             android:textAllCaps="true"
-            android:textSize="18sp"
+            android:fontFamily="@font/manrope_extrabold"
+            android:textSize="16sp"
+            android:letterSpacing="0.06"
+            android:maxLines="1"
             android:textColor="#1A1A2B"
-            android:background="@drawable/start_button"
-            android:elevation="8dp"/>
+            android:background="@drawable/btn_primary_gold"
+            android:drawableStart="@drawable/ic_play"
+            android:drawablePadding="10dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:gravity="center"
+            android:stateListAnimator="@null"/>
+
+        </FrameLayout>
 
     </LinearLayout>
+
+  </FrameLayout>
 
 </FrameLayout>
