@@ -23,8 +23,8 @@ class QuizActivity : AppCompatActivity() {
 
     private val MAX_QUESTIONS = 5
     private val QUESTION_TIME_MS = 10_000L
-    private val REVEAL_DELAY_CLICK = 1000L
-    private val REVEAL_DELAY_TIMEOUT = 2000L
+    private val REVEAL_DELAY_CLICK = 1500L
+    private val REVEAL_DELAY_TIMEOUT = 2500L
 
     private var categoryId = -1
     private var currentIndex = 0
