@@ -3,7 +3,7 @@ error_reporting(0);
 ini_set('display_errors', 0);
 header("Content-Type: application/json");
 
-$conn = new mysqli("localhost", "root", "", "quizdb");
+$conn = new mysqli("127.0.0.1", "root", "", "quizdb");
 
 $category_id = intval($_GET['category_id']);
 $limit = intval($_GET['limit']);
