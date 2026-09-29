@@ -49,8 +49,15 @@ class CategoryActivity : AppCompatActivity() {
                         val name = obj.getString("name")
 
                         val item = layoutInflater.inflate(R.layout.item_category, layout, false)
-                        item.findViewById<TextView>(R.id.tvMonogram).text =
-                            name.trim().firstOrNull()?.uppercaseChar()?.toString() ?: "?"
+                        // w kółku: liczba z początku nazwy ("21 Savage" -> 21), dekada z nazwy ("Lata 2010." -> 10),
+                        // w pozostałych przypadkach pierwsza litera
+                        val trimmed = name.trim()
+                        val number = Regex("\\d+").find(trimmed)?.value
+                        item.findViewById<TextView>(R.id.tvMonogram).text = when {
+                            number != null && trimmed.startsWith(number) -> number.take(2)
+                            number != null -> number.takeLast(2)
+                            else -> trimmed.firstOrNull()?.uppercaseChar()?.toString() ?: "?"
+                        }
                         item.findViewById<TextView>(R.id.tvCategoryName).text = name.uppercase()
 
                         val params = LinearLayout.LayoutParams(

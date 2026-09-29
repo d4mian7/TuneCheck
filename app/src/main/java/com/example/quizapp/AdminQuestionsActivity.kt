@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import okhttp3.*
@@ -87,28 +86,8 @@ class AdminQuestionsActivity : AppCompatActivity() {
                 }
 
                 runOnUiThread {
-                    val adapter = object : ArrayAdapter<String>(
-                        this@AdminQuestionsActivity,
-                        android.R.layout.simple_spinner_item,
-                        names
-                    ) {
-                        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                            val view = super.getView(position, convertView, parent) as TextView
-                            view.setTextColor(Color.WHITE)
-                            view.textSize = 15f
-                            return view
-                        }
-
-                        override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                            val view = super.getDropDownView(position, convertView, parent) as TextView
-                            view.setTextColor(Color.WHITE)
-                            view.setBackgroundColor(Color.parseColor("#1A1A2B"))
-                            view.setPadding(24, 20, 24, 20)
-                            view.textSize = 15f
-                            return view
-                        }
-                    }
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    val adapter = ArrayAdapter(this@AdminQuestionsActivity, R.layout.spinner_item, names)
+                    adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
                     spinnerCategory.adapter = adapter
 
                     spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -194,7 +173,6 @@ class AdminQuestionsActivity : AppCompatActivity() {
             setTextColor(Color.WHITE)
             typeface = androidx.core.content.res.ResourcesCompat.getFont(context, R.font.manrope_semibold)
             textSize = 14f
-            maxLines = 2
         }
 
         val tvCorrect = TextView(this).apply {

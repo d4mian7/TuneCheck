@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- pozycja rozwiniętej listy spinnera -->
+<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="48dp"
+    android:gravity="center_vertical"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    android:fontFamily="@font/manrope_semibold"
+    android:textColor="@color/spinner_dropdown_text"
+    android:textSize="15sp"
+    android:singleLine="true"
+    android:ellipsize="end"
+    android:checkMark="@null"
+    android:background="@drawable/spinner_dropdown_item_bg"/>

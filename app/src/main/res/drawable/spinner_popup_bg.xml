@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- tło rozwiniętej listy spinnera -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#1E1B2E"/>
+    <corners android:radius="14dp"/>
+    <stroke
+        android:width="1.5dp"
+        android:color="#F5B04C"/>
+    <padding
+        android:top="6dp"
+        android:bottom="6dp"/>
+</shape>

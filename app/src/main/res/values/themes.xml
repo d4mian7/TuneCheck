@@ -1,9 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.QuizApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:fontFamily">@font/manrope</item>
-        <item name="fontFamily">@font/manrope</item>
+    <!-- Motyw aplikacji: zawsze ciemny, niezależnie od jasnego/ciemnego trybu telefonu -->
+    <style name="Base.Theme.QuizApp" parent="Theme.Material3.Dark.NoActionBar" />
+
+    <style name="Theme.QuizApp" parent="Base.Theme.QuizApp">
+        <!-- rozwijane listy spinnerów bez systemowego podświetlenia i linii -->
+        <item name="dropDownListViewStyle">@style/TuneCheck.DropDownList</item>
+        <item name="android:dropDownListViewStyle">@style/TuneCheck.DropDownList</item>
     </style>
 
-    <style name="Theme.QuizApp" parent="Base.Theme.QuizApp" />
+    <style name="TuneCheck.DropDownList" parent="Widget.AppCompat.ListView.DropDown">
+        <item name="android:listSelector">@android:color/transparent</item>
+        <item name="android:divider">@null</item>
+    </style>
 </resources>

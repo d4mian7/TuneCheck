@@ -9,7 +9,8 @@ if ($conn->connect_error) {
     die(json_encode(["error" => "Błąd połączenia z bazą"]));
 }
 
-$result = $conn->query("SELECT id, name FROM categories");
+// najpierw kategorie tematyczne w ustalonej kolejności (theme_order), potem artyści alfabetycznie
+$result = $conn->query("SELECT id, name FROM categories ORDER BY theme_order IS NULL, theme_order, name");
 
 $categories = [];
 

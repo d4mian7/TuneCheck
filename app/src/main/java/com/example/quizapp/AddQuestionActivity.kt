@@ -1,9 +1,6 @@
 package com.example.quizapp
 
-import android.graphics.Color
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import okhttp3.*
@@ -44,28 +41,8 @@ class AddQuestionActivity : AppCompatActivity() {
 
         // Spinner z opcjami A, B, C, D
         val answers = listOf("A", "B", "C", "D")
-        val adapter = object : ArrayAdapter<String>(
-            this,
-            android.R.layout.simple_spinner_item,
-            answers
-        ) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getView(position, convertView, parent) as TextView
-                view.setTextColor(Color.WHITE)
-                view.textSize = 15f
-                return view
-            }
-
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getDropDownView(position, convertView, parent) as TextView
-                view.setTextColor(Color.WHITE)
-                view.setBackgroundColor(Color.parseColor("#1A1A2B"))
-                view.setPadding(24, 20, 24, 20)
-                view.textSize = 15f
-                return view
-            }
-        }
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val adapter = ArrayAdapter(this, R.layout.spinner_item, answers)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         spinnerCorrectAnswer.adapter = adapter
 
         btnSave.setOnClickListener { saveQuestion() }
