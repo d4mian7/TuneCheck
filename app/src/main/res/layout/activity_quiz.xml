@@ -320,13 +320,44 @@
 
     </LinearLayout>
 
-    <!-- spinner ładowania -->
+    <!-- odliczanie 3-2-1 przed pierwszym pytaniem -->
+    <LinearLayout
+        android:id="@+id/countdownLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tvCountdownCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/manrope_extrabold"
+            android:textColor="#A8FFFFFF"
+            android:textSize="13sp"
+            android:letterSpacing="0.18"/>
+
+        <TextView
+            android:id="@+id/tvCountdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/space_grotesk_bold"
+            android:textColor="#F5B04C"
+            android:textSize="140sp"
+            android:shadowColor="#73F5B04C"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="30"/>
+    </LinearLayout>
+
+    <!-- spinner ładowania - tylko gdy pytania nie zdążą się pobrać w trakcie odliczania -->
     <ProgressBar
         android:id="@+id/loadingSpinner"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_gravity="center"
         android:indeterminateTint="#F5B04C"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 
 </FrameLayout>

@@ -1,7 +1,10 @@
 package com.example.quizapp
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.widget.GridLayout
+import android.widget.ImageButton
 import android.widget.TextView
 import android.util.Log
 import android.widget.LinearLayout
@@ -11,7 +14,6 @@ import okhttp3.*
 import org.json.JSONArray
 import java.io.IOException
 import android.content.Intent
-import android.graphics.Color
 
 class CategoryActivity : AppCompatActivity() {
 
@@ -23,9 +25,13 @@ class CategoryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_category)
 
         val username = intent.getStringExtra("username") ?: ""
-        val layout = findViewById<LinearLayout>(R.id.layoutCategories)
+        val gridThemes = findViewById<GridLayout>(R.id.gridThemes)
+        val gridArtists = findViewById<GridLayout>(R.id.gridArtists)
         val contentLayout = findViewById<LinearLayout>(R.id.contentLayout)
         val loadingSpinner = findViewById<ProgressBar>(R.id.loadingSpinner)
+
+        // powrót do ekranu startowego
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
 
         val request = Request.Builder().url(URL).build()
 
@@ -47,8 +53,10 @@ class CategoryActivity : AppCompatActivity() {
                         val obj = jsonArray.getJSONObject(i)
                         val id = obj.getInt("id")
                         val name = obj.getString("name")
+                        // theme_order = null -> kategoria artysty, w przeciwnym razie tematyczna
+                        val grid = if (obj.isNull("theme_order")) gridArtists else gridThemes
 
-                        val item = layoutInflater.inflate(R.layout.item_category, layout, false)
+                        val item = layoutInflater.inflate(R.layout.item_category, grid, false)
                         // w kółku: liczba z początku nazwy ("21 Savage" -> 21), dekada z nazwy ("Lata 2010." -> 10),
                         // w pozostałych przypadkach pierwsza litera
                         val trimmed = name.trim()
@@ -60,23 +68,31 @@ class CategoryActivity : AppCompatActivity() {
                         }
                         item.findViewById<TextView>(R.id.tvCategoryName).text = name.uppercase()
 
-                        val params = LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        // kafelek zajmuje pół szerokości (waga 1 w kolumnie) i wypełnia wysokość wiersza
+                        val params = GridLayout.LayoutParams(
+                            GridLayout.spec(GridLayout.UNDEFINED),
+                            GridLayout.spec(GridLayout.UNDEFINED, 1f)
                         )
-                        params.setMargins(0, 0, 0, (16 * resources.displayMetrics.density).toInt())
+                        params.width = 0
+                        params.setGravity(Gravity.FILL)
+                        val margin = (5 * resources.displayMetrics.density).toInt()
+                        params.setMargins(margin, margin, margin, margin)
                         item.layoutParams = params
 
                         item.setOnClickListener {
                             val intent = Intent(this@CategoryActivity, QuizActivity::class.java)
                             intent.putExtra("category_id", id)
+                            intent.putExtra("category_name", name)
                             intent.putExtra("username", username)
                             startActivity(intent)
                             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                         }
 
-                        layout.addView(item)
+                        grid.addView(item)
                     }
+
+                    findViewById<TextView>(R.id.tvThemesCount).text = gridThemes.childCount.toString()
+                    findViewById<TextView>(R.id.tvArtistsCount).text = gridArtists.childCount.toString()
 
                     // ukryj spinner, pokaż zawartość z animacją
                     loadingSpinner.visibility = View.GONE

@@ -23,17 +23,22 @@ class QuizActivity : AppCompatActivity() {
 
     private val MAX_QUESTIONS = 5
     private val QUESTION_TIME_MS = 10_000L
-    private val REVEAL_DELAY_CLICK = 1500L
+    private val REVEAL_DELAY_CORRECT = 2000L
+    private val REVEAL_DELAY_WRONG = 2500L
     private val REVEAL_DELAY_TIMEOUT = 2500L
+    private val COUNTDOWN_STEP_MS = 800L
 
     private var categoryId = -1
+    private var countdownDone = false
     private var currentIndex = 0
     private var score = 0
     private var correctAnswer = ""
     private var username = ""
 
-    private lateinit var questions: List<JSONObject>
+    private var questions: List<JSONObject> = emptyList()
 
+    private lateinit var countdownLayout: LinearLayout
+    private lateinit var tvCountdown: TextView
     private lateinit var questionPanel: LinearLayout
     private lateinit var loadingSpinner: ProgressBar
     private lateinit var tvQuestion: TextView
@@ -61,6 +66,10 @@ class QuizActivity : AppCompatActivity() {
         categoryId = intent.getIntExtra("category_id", -1)
         username = intent.getStringExtra("username") ?: ""
 
+        countdownLayout = findViewById(R.id.countdownLayout)
+        tvCountdown = findViewById(R.id.tvCountdown)
+        findViewById<TextView>(R.id.tvCountdownCategory).text =
+            (intent.getStringExtra("category_name") ?: "").uppercase()
         questionPanel = findViewById(R.id.questionPanel)
         loadingSpinner = findViewById(R.id.loadingSpinner)
         tvQuestion = findViewById(R.id.tvQuestion)
@@ -94,7 +103,41 @@ class QuizActivity : AppCompatActivity() {
             view.setOnClickListener { checkAnswer(letters[i]) }
         }
 
+        // pytania pobierają się w tle, w trakcie odliczania
         loadQuestions()
+        startCountdown()
+    }
+
+    // --- Odliczanie 3-2-1 ---
+
+    private fun startCountdown() {
+        val steps = listOf("3", "2", "1", "GRAJ!")
+        steps.forEachIndexed { i, text ->
+            handler.postDelayed({
+                tvCountdown.text = text
+                tvCountdown.textSize = if (text == "GRAJ!") 64f else 140f
+                tvCountdown.startAnimation(AnimationUtils.loadAnimation(this, R.anim.countdown_pop))
+            }, i * COUNTDOWN_STEP_MS)
+        }
+        handler.postDelayed({
+            countdownLayout.visibility = View.GONE
+            countdownDone = true
+            startQuizIfReady()
+        }, steps.size * COUNTDOWN_STEP_MS)
+    }
+
+    // quiz startuje, gdy skończy się odliczanie i są już pobrane pytania
+    private fun startQuizIfReady() {
+        if (!countdownDone) return
+        if (questions.isEmpty()) {
+            loadingSpinner.visibility = View.VISIBLE
+            return
+        }
+        loadingSpinner.visibility = View.GONE
+        questionPanel.visibility = View.VISIBLE
+        showQuestion()
+        val slideIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_right)
+        questionPanel.startAnimation(slideIn)
     }
 
     private fun loadQuestions() {
@@ -117,13 +160,9 @@ class QuizActivity : AppCompatActivity() {
                     list.add(jsonArray.getJSONObject(i))
                 }
 
-                questions = list
                 runOnUiThread {
-                    loadingSpinner.visibility = View.GONE
-                    questionPanel.visibility = View.VISIBLE
-                    showQuestion()
-                    val slideIn = AnimationUtils.loadAnimation(this@QuizActivity, R.anim.slide_in_right)
-                    questionPanel.startAnimation(slideIn)
+                    questions = list
+                    startQuizIfReady()
                 }
             }
         })
@@ -191,7 +230,8 @@ class QuizActivity : AppCompatActivity() {
         val clickedIdx = letterIndex(answer)
         val correctIdx = letterIndex(correctAnswer)
 
-        if (clickedIdx == correctIdx) {
+        val isCorrect = clickedIdx == correctIdx
+        if (isCorrect) {
             styleCorrect(clickedIdx)
             score++
         } else {
@@ -206,7 +246,7 @@ class QuizActivity : AppCompatActivity() {
 
         disableButtons()
         currentIndex++
-        scheduleNext(REVEAL_DELAY_CLICK)
+        scheduleNext(if (isCorrect) REVEAL_DELAY_CORRECT else REVEAL_DELAY_WRONG)
     }
 
     private fun scheduleNext(revealDelay: Long) {

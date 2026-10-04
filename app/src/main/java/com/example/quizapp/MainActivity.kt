@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.Window
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -27,19 +26,24 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         if (showLogoutMessage) {
             showLogoutMessage = false
-            // schowaj klawiaturę i zdejmij fokus z pola, żeby komunikat był widoczny
-            findViewById<EditText>(R.id.etUsername)?.clearFocus()
-            val imm = getSystemService(INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
-            imm.hideSoftInputFromWindow(window.decorView.windowToken, 0)
+            // klawiatura schowana, żeby komunikat był widoczny
+            hideKeyboard()
             window.decorView.postDelayed({ AppToast.show(this, "Wylogowano z panelu admina") }, 500)
         }
+    }
+
+    // schowaj klawiaturę i zdejmij fokus z pola nazwy użytkownika
+    private fun hideKeyboard() {
+        findViewById<EditText>(R.id.etUsername).clearFocus()
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+        imm.hideSoftInputFromWindow(window.decorView.windowToken, 0)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val btnStart = findViewById<Button>(R.id.btnStart)
+        val btnStart = findViewById<android.view.View>(R.id.btnStart)
         val etUsername = findViewById<EditText>(R.id.etUsername)
         val btnAdmin = findViewById<android.view.View>(R.id.btnAdmin)
 
@@ -50,6 +54,9 @@ class MainActivity : AppCompatActivity() {
                 AppToast.show(this, "Podaj nazwę użytkownika")
                 return@setOnClickListener
             }
+
+            // po powrocie z kategorii ekran ma wyglądać jak przy starcie: nick wpisany, bez klawiatury
+            hideKeyboard()
 
             val intent = Intent(this, CategoryActivity::class.java)
             intent.putExtra("username", username)

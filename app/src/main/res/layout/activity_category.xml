@@ -10,67 +10,168 @@
         android:layout_height="match_parent"
         android:background="#8C12101D"/>
 
-    <!-- główna zawartość - przewijalna, bo kategorii może być dużo -->
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/contentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="none">
+        android:orientation="vertical"
+        android:fitsSystemWindows="true"
+        android:visibility="gone">
 
-        <LinearLayout
-            android:id="@+id/contentLayout"
+        <!-- nagłówek przypięty u góry: powrót + tytuł -->
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            android:paddingTop="48dp"
-            android:paddingBottom="24dp"
-            android:visibility="gone">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="22dp"
+            android:paddingBottom="14dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TUNECHECK"
-                android:fontFamily="@font/manrope_extrabold"
-                android:textColor="#A6FFFFFF"
-                android:textSize="12sp"
-                android:letterSpacing="0.35"
-                android:layout_marginBottom="8dp"/>
-
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="WYBIERZ KATEGORIĘ"
-                android:fontFamily="@font/space_grotesk_bold"
-                android:textColor="#F5B04C"
-                android:textSize="27sp"
-                android:letterSpacing="0.05"
-                android:gravity="center"
-                android:shadowColor="#000000"
-                android:shadowDx="0"
-                android:shadowDy="6"
-                android:shadowRadius="10"
-                android:layout_marginBottom="10dp"/>
-
-            <View
-                android:layout_width="56dp"
-                android:layout_height="3dp"
-                android:background="#F5B04C"
-                android:layout_marginBottom="32dp"/>
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="start|center_vertical"
+                android:src="@drawable/ic_back"
+                android:tint="#F5B04C"
+                android:background="@drawable/monogram_bg"
+                android:stateListAnimator="@animator/press_scale"
+                android:contentDescription="Powrót do ekranu startowego"/>
 
             <LinearLayout
-                android:id="@+id/layoutCategories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TUNECHECK"
+                    android:fontFamily="@font/manrope_extrabold"
+                    android:textColor="#A6FFFFFF"
+                    android:textSize="12sp"
+                    android:letterSpacing="0.35"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="WYBIERZ KATEGORIĘ"
+                    android:fontFamily="@font/space_grotesk_bold"
+                    android:textColor="#F5B04C"
+                    android:textSize="19sp"
+                    android:letterSpacing="0.05"
+                    android:shadowColor="#000000"
+                    android:shadowDx="0"
+                    android:shadowDy="6"
+                    android:shadowRadius="10"/>
+            </LinearLayout>
+        </FrameLayout>
+
+        <!-- przewijana lista: sekcja tematów i sekcja artystów, każda jako siatka 2 kolumn -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:gravity="center_horizontal"/>
+                android:paddingStart="19dp"
+                android:paddingEnd="19dp"
+                android:paddingBottom="24dp">
 
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="7dp">
 
-    </ScrollView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TEMATY"
+                        android:fontFamily="@font/manrope_extrabold"
+                        android:textColor="#A8FFFFFF"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.2"/>
+
+                    <TextView
+                        android:id="@+id/tvThemesCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/manrope_extrabold"
+                        android:textColor="#F5B04C"
+                        android:textSize="11sp"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:background="#24FFFFFF"/>
+                </LinearLayout>
+
+                <GridLayout
+                    android:id="@+id/gridThemes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ARTYŚCI"
+                        android:fontFamily="@font/manrope_extrabold"
+                        android:textColor="#A8FFFFFF"
+                        android:textSize="11sp"
+                        android:letterSpacing="0.2"/>
+
+                    <TextView
+                        android:id="@+id/tvArtistsCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/manrope_extrabold"
+                        android:textColor="#F5B04C"
+                        android:textSize="11sp"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:background="#24FFFFFF"/>
+                </LinearLayout>
+
+                <GridLayout
+                    android:id="@+id/gridArtists"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"/>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 
     <!-- spinner ładowania -->
     <ProgressBar
