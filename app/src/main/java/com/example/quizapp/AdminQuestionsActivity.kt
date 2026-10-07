@@ -8,11 +8,15 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import okhttp3.*
-import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
 class AdminQuestionsActivity : AppCompatActivity() {
+
+    companion object {
+        /** Ustawiane przez AddQuestionActivity po zapisaniu pytania. */
+        var showAddedMessage = false
+    }
 
     private val client = ApiClient.client
     private lateinit var spinnerCategory: Spinner
@@ -59,6 +63,11 @@ class AdminQuestionsActivity : AppCompatActivity() {
         if (selectedCategoryId != -1) {
             loadQuestions(selectedCategoryId)
         }
+        // komunikat po powrocie z kreatora pytania - tutaj, bo kreator zamyka się od razu po zapisie
+        if (showAddedMessage) {
+            showAddedMessage = false
+            window.decorView.postDelayed({ AppToast.show(this, "Pytanie dodane") }, 500)
+        }
     }
 
     private fun loadCategories() {
@@ -74,8 +83,11 @@ class AdminQuestionsActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val json = response.body?.string() ?: return
-                val jsonArray = JSONArray(json)
+                val jsonArray = ApiClient.jsonArrayOrNull(response.body?.string())
+                if (jsonArray == null) {
+                    runOnUiThread { AppToast.show(this@AdminQuestionsActivity, "Błąd odpowiedzi serwera") }
+                    return
+                }
 
                 categories.clear()
                 val names = mutableListOf<String>()
@@ -107,6 +119,7 @@ class AdminQuestionsActivity : AppCompatActivity() {
     private fun loadQuestions(categoryId: Int) {
         val request = Request.Builder()
             .url("${ApiClient.BASE_URL}get_questions_admin.php?category_id=$categoryId")
+            .header("X-Admin-Token", ApiClient.adminToken ?: "")
             .build()
 
         client.newCall(request).enqueue(object : Callback {
@@ -117,8 +130,11 @@ class AdminQuestionsActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val json = response.body?.string() ?: return
-                val jsonArray = JSONArray(json)
+                val jsonArray = ApiClient.jsonArrayOrNull(response.body?.string())
+                if (jsonArray == null) {
+                    runOnUiThread { AppToast.show(this@AdminQuestionsActivity, "Błąd odpowiedzi serwera") }
+                    return
+                }
 
                 runOnUiThread {
                     questionsList.removeAllViews()
@@ -219,6 +235,7 @@ class AdminQuestionsActivity : AppCompatActivity() {
 
         val request = Request.Builder()
             .url(ApiClient.BASE_URL + "delete_question.php")
+            .header("X-Admin-Token", ApiClient.adminToken ?: "")
             .post(formBody)
             .build()
 

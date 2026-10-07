@@ -11,7 +11,6 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import okhttp3.*
-import org.json.JSONArray
 import java.io.IOException
 import android.content.Intent
 
@@ -37,16 +36,18 @@ class CategoryActivity : AppCompatActivity() {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
+                runOnUiThread { showLoadError(contentLayout, loadingSpinner) }
             }
 
             override fun onResponse(call: Call, response: Response) {
                 val json = response.body?.string()
                 Log.d("QUIZ", "JSON = $json")
 
-                if (json == null) return
-
-                val jsonArray = JSONArray(json)
+                val jsonArray = ApiClient.jsonArrayOrNull(json)
+                if (jsonArray == null) {
+                    runOnUiThread { showLoadError(contentLayout, loadingSpinner) }
+                    return
+                }
 
                 runOnUiThread {
                     for (i in 0 until jsonArray.length()) {
@@ -102,6 +103,14 @@ class CategoryActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    // brak połączenia lub błąd serwera: zamiast kręcącego się spinnera pokaż nagłówek
+    // (z przyciskiem powrotu) i komunikat
+    private fun showLoadError(contentLayout: View, loadingSpinner: View) {
+        loadingSpinner.visibility = View.GONE
+        contentLayout.visibility = View.VISIBLE
+        AppToast.show(this, "Nie udało się pobrać kategorii")
     }
 
     override fun finish() {

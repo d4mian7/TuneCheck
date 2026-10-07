@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import okhttp3.*
-import org.json.JSONObject
 import java.io.IOException
 
 class AddQuestionActivity : AppCompatActivity() {
@@ -81,6 +80,7 @@ class AddQuestionActivity : AppCompatActivity() {
 
         val request = Request.Builder()
             .url(ApiClient.BASE_URL + "add_question.php")
+            .header("X-Admin-Token", ApiClient.adminToken ?: "")
             .post(formBody)
             .build()
 
@@ -94,18 +94,18 @@ class AddQuestionActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val json = response.body?.string() ?: return
-                val obj = JSONObject(json)
+                val obj = ApiClient.jsonObjectOrNull(response.body?.string())
 
                 runOnUiThread {
-                    if (obj.getString("status") == "ok") {
-                        AppToast.show(this@AddQuestionActivity, "Pytanie dodane!")
+                    if (obj?.optString("status") == "ok") {
+                        // komunikat pokaże ekran listy pytań, na który zaraz wracamy
+                        AdminQuestionsActivity.showAddedMessage = true
                         finish()
                         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
                     } else {
                         btnSave.isEnabled = true
                         btnSave.text = "ZAPISZ PYTANIE"
-                        AppToast.show(this@AddQuestionActivity, obj.getString("message"))
+                        AppToast.show(this@AddQuestionActivity, obj?.optString("message") ?: "Błąd odpowiedzi serwera")
                     }
                 }
             }

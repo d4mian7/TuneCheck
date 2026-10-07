@@ -57,6 +57,10 @@ class ResultActivity : AppCompatActivity() {
         val client = ApiClient.client
         val btnSave = findViewById<Button>(R.id.btnSaveScore)
         btnSave.setOnClickListener {
+            // blokada wielokrotnego zapisu tego samego wyniku + informacja, że trwa zapis
+            // (przy braku serwera odpowiedź przychodzi dopiero po limicie czasu z ApiClient)
+            btnSave.isEnabled = false
+            btnSave.text = "ZAPISYWANIE..."
 
             val formBody = FormBody.Builder()
                 .add("username", username)
@@ -73,13 +77,25 @@ class ResultActivity : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     runOnUiThread {
-                        AppToast.show(this@ResultActivity, "Błąd zapisu")
+                        btnSave.isEnabled = true
+                        btnSave.text = "ZAPISZ WYNIK"
+                        AppToast.show(this@ResultActivity, "Błąd połączenia z serwerem")
                     }
                 }
 
                 override fun onResponse(call: Call, response: Response) {
+                    // "Wynik zapisany" tylko wtedy, gdy serwer potwierdził zapis
+                    val obj = ApiClient.jsonObjectOrNull(response.body?.string())
+                    val saved = obj?.optString("status") == "ok"
                     runOnUiThread {
-                        AppToast.show(this@ResultActivity, "Wynik zapisany")
+                        if (saved) {
+                            btnSave.text = "ZAPISANO"
+                            AppToast.show(this@ResultActivity, "Wynik zapisany")
+                        } else {
+                            btnSave.isEnabled = true
+                            btnSave.text = "ZAPISZ WYNIK"
+                            AppToast.show(this@ResultActivity, "Błąd zapisu")
+                        }
                     }
                 }
             })

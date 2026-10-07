@@ -10,6 +10,9 @@ if ($conn->connect_error) {
     exit;
 }
 
+// tylko dla zalogowanego administratora
+require 'auth.php';
+
 $name = $_POST['name'] ?? null;
 
 if (!$name || trim($name) === "") {

@@ -33,9 +33,17 @@ if ($result->num_rows === 0) {
 $admin = $result->fetch_assoc();
 
 if (password_verify($password, $admin['password'])) {
+    // losowy token sesji (64 znaki) - aplikacja dołącza go do każdej operacji admina
+    $token = bin2hex(random_bytes(32));
+    $update = $conn->prepare("UPDATE admins SET token = ? WHERE id = ?");
+    $update->bind_param("si", $token, $admin['id']);
+    $update->execute();
+    $update->close();
+
     echo json_encode([
         "status" => "ok",
         "admin_id" => $admin['id'],
+        "token" => $token,
         "message" => "Zalogowano pomyślnie"
     ]);
 } else {

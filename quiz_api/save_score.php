@@ -15,7 +15,8 @@ $category_id = $_POST['category_id'] ?? null;
 $score = $_POST['score'] ?? null;
 $total = $_POST['total'] ?? null;
 
-if (!$username || !$category_id || !$score || !$total) {
+// wynik 0 jest poprawny, więc dla score sprawdzamy tylko, czy w ogóle przyszedł
+if (!$username || !$category_id || $score === null || !$total) {
     echo json_encode(["status" => "error", "message" => "Brak danych"]);
     exit;
 }

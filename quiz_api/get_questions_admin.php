@@ -9,6 +9,9 @@ if ($conn->connect_error) {
     die(json_encode(["error" => "Błąd połączenia z bazą"]));
 }
 
+// tylko dla zalogowanego administratora
+require 'auth.php';
+
 $category_id = isset($_GET['category_id']) ? intval($_GET['category_id']) : null;
 
 if (!$category_id) {

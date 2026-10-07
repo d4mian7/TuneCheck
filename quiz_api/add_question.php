@@ -10,6 +10,9 @@ if ($conn->connect_error) {
     exit;
 }
 
+// tylko dla zalogowanego administratora
+require 'auth.php';
+
 $category_id = $_POST['category_id'] ?? null;
 $question_text = $_POST['question_text'] ?? null;
 $answerA = $_POST['answerA'] ?? null;

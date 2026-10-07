@@ -10,7 +10,6 @@ import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import okhttp3.*
-import org.json.JSONObject
 import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
@@ -144,11 +143,12 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    val json = response.body?.string() ?: return
-                    val obj = JSONObject(json)
+                    val obj = ApiClient.jsonObjectOrNull(response.body?.string())
 
                     runOnUiThread {
-                        if (obj.getString("status") == "ok") {
+                        if (obj?.optString("status") == "ok") {
+                            // token sesji - dołączany do każdej operacji w panelu admina
+                            ApiClient.adminToken = obj?.optString("token")
                             dialog.dismiss()
                             val intent = Intent(this@MainActivity, AdminPanelActivity::class.java)
                             startActivity(intent)
@@ -156,7 +156,7 @@ class MainActivity : AppCompatActivity() {
                         } else {
                             btnLogin.isEnabled = true
                             btnLogin.text = "ZALOGUJ"
-                            showError(obj.getString("message"))
+                            showError(obj?.optString("message") ?: "Błąd odpowiedzi serwera")
                         }
                     }
                 }

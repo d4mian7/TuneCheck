@@ -9,10 +9,10 @@ Architektura **klient–serwer**: natywna aplikacja Android (Kotlin) + backend P
 **Tryb gracza**
 - wybór kategorii pobieranych dynamicznie z API,
 - rozgrywka: 5 losowych pytań na kategorię, 4 odpowiedzi, natychmiastowy feedback (zielony/czerwony), pasek postępu,
-- ekran wyniku z zapisem rezultatu do bazy i rankingiem.
+- ekran wyniku z zapisem rezultatu do bazy.
 
 **Tryb administratora** (wbudowany w aplikację — zarządzanie treścią bez dotykania bazy)
-- logowanie administratora (weryfikacja hasła **bcrypt** po stronie backendu),
+- logowanie administratora (weryfikacja hasła **bcrypt** po stronie backendu), operacje panelu chronione **tokenem sesji**,
 - CRUD kategorii i pytań z poziomu telefonu.
 
 ## Architektura
@@ -22,7 +22,7 @@ Architektura **klient–serwer**: natywna aplikacja Android (Kotlin) + backend P
 ```
 
 - **Klient:** architektura oparta na Activity; sieć przez OkHttp (singleton `ApiClient`, wzorzec enqueue + `runOnUiThread`), animacje przejść między ekranami, Material 3 (tryb ciemny).
-- **Backend:** `quiz_api/` — endpoint-per-file (PHP + mysqli, prepared statements), auth admina przez `password_verify` (bcrypt).
+- **Backend:** `quiz_api/` — endpoint-per-file (PHP + mysqli, prepared statements), auth admina przez `password_verify` (bcrypt) i token sesji w nagłówku `X-Admin-Token` (`auth.php`).
 - **Baza:** MySQL (`quizdb`) — kategorie, pytania, wyniki, administratorzy.
 
 Kluczowe pliki klienta: `MainActivity` (start + logowanie admina) · `CategoryActivity` · `QuizActivity` (logika rozgrywki) · `ResultActivity` · `AdminPanelActivity` + ekrany CRUD.

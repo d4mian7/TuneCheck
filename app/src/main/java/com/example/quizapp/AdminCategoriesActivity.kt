@@ -6,7 +6,6 @@ import android.view.Gravity
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import okhttp3.*
-import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
@@ -48,8 +47,11 @@ class AdminCategoriesActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val json = response.body?.string() ?: return
-                val jsonArray = JSONArray(json)
+                val jsonArray = ApiClient.jsonArrayOrNull(response.body?.string())
+                if (jsonArray == null) {
+                    runOnUiThread { AppToast.show(this@AdminCategoriesActivity, "Błąd odpowiedzi serwera") }
+                    return
+                }
 
                 runOnUiThread {
                     categoriesList.removeAllViews()
@@ -130,6 +132,11 @@ class AdminCategoriesActivity : AppCompatActivity() {
             return
         }
 
+        // schowaj klawiaturę, żeby komunikat na dole ekranu był od razu widoczny
+        etNewCategory.clearFocus()
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+        imm.hideSoftInputFromWindow(etNewCategory.windowToken, 0)
+
         btnAddCategory.isEnabled = false
 
         val formBody = FormBody.Builder()
@@ -138,6 +145,7 @@ class AdminCategoriesActivity : AppCompatActivity() {
 
         val request = Request.Builder()
             .url(ApiClient.BASE_URL + "add_category.php")
+            .header("X-Admin-Token", ApiClient.adminToken ?: "")
             .post(formBody)
             .build()
 
@@ -150,17 +158,16 @@ class AdminCategoriesActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val json = response.body?.string() ?: return
-                val obj = JSONObject(json)
+                val obj = ApiClient.jsonObjectOrNull(response.body?.string())
 
                 runOnUiThread {
                     btnAddCategory.isEnabled = true
-                    if (obj.getString("status") == "ok") {
+                    if (obj?.optString("status") == "ok") {
                         etNewCategory.text.clear()
                         AppToast.show(this@AdminCategoriesActivity, "Kategoria dodana")
                         loadCategories()
                     } else {
-                        AppToast.show(this@AdminCategoriesActivity, obj.getString("message"))
+                        AppToast.show(this@AdminCategoriesActivity, obj?.optString("message") ?: "Błąd odpowiedzi serwera")
                     }
                 }
             }
@@ -174,6 +181,7 @@ class AdminCategoriesActivity : AppCompatActivity() {
 
         val request = Request.Builder()
             .url(ApiClient.BASE_URL + "delete_category.php")
+            .header("X-Admin-Token", ApiClient.adminToken ?: "")
             .post(formBody)
             .build()
 

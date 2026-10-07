@@ -10,6 +10,9 @@ if ($conn->connect_error) {
     exit;
 }
 
+// tylko dla zalogowanego administratora
+require 'auth.php';
+
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 
 if ($id <= 0) {

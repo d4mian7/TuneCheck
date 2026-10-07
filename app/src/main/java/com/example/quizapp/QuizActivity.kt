@@ -14,7 +14,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import okhttp3.*
-import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import kotlin.math.ceil
@@ -148,12 +147,20 @@ class QuizActivity : AppCompatActivity() {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                runOnUiThread { tvQuestion.text = "Błąd pobierania pytań" }
+                runOnUiThread { showLoadError("Nie udało się pobrać pytań") }
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val json = response.body?.string() ?: return
-                val jsonArray = JSONArray(json)
+                val jsonArray = ApiClient.jsonArrayOrNull(response.body?.string())
+                if (jsonArray == null) {
+                    runOnUiThread { showLoadError("Nie udało się pobrać pytań") }
+                    return
+                }
+                // np. kategoria świeżo dodana przez admina, jeszcze bez pytań
+                if (jsonArray.length() == 0) {
+                    runOnUiThread { showLoadError("Ta kategoria nie ma jeszcze pytań") }
+                    return
+                }
 
                 val list = mutableListOf<JSONObject>()
                 for (i in 0 until jsonArray.length()) {
@@ -166,6 +173,15 @@ class QuizActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    // nie da się zagrać: zatrzymaj odliczanie, pokaż komunikat i wróć do listy kategorii
+    private fun showLoadError(message: String) {
+        handler.removeCallbacksAndMessages(null)
+        countdownLayout.visibility = View.GONE
+        loadingSpinner.visibility = View.GONE
+        AppToast.show(this, message)
+        handler.postDelayed({ finish() }, 2500)
     }
 
     // --- Timer ---
