@@ -205,6 +205,12 @@ w sekcjach poszczególnych artystów poniżej.
 - Artykuł w serwisie revolt.tv, https://www.revolt.tv/article/nas-dj-premier-release-light-years-album [dostęp: 29.09.2026]
 - „Nas”, Wikipedia (wersja angielska), https://en.wikipedia.org/wiki/Nas [dostęp: 29.09.2026]
 
+### Notorious B.I.G.
+
+- „The Notorious B.I.G.”, Wikipedia (wersja angielska), https://en.wikipedia.org/wiki/The_Notorious_B.I.G. [dostęp: 29.09.2026]
+- „Notorious (2009 film)”, Wikipedia (wersja angielska), https://en.wikipedia.org/wiki/Notorious_(2009_film) [dostęp: 29.09.2026]
+- „Notorious (2009)”, IMDb, https://www.imdb.com/title/tt0472198/ [dostęp: 29.09.2026]
+
 ### OutKast
 
 - „Idlewild (film)”, Wikipedia (wersja angielska), https://en.wikipedia.org/wiki/Idlewild_(film) [dostęp: 29.09.2026]
@@ -228,12 +234,6 @@ w sekcjach poszczególnych artystów poniżej.
 - „Snoop Dogg”, Wikipedia (wersja angielska), https://en.wikipedia.org/wiki/Snoop_Dogg [dostęp: 29.09.2026]
 - „Gin and Juice”, Wikipedia (wersja angielska), https://en.wikipedia.org/wiki/Gin_and_Juice [dostęp: 29.09.2026]
 - „Doggystyle”, Wikipedia (wersja angielska), https://en.wikipedia.org/wiki/Doggystyle [dostęp: 29.09.2026]
-
-### The Notorious B.I.G.
-
-- „The Notorious B.I.G.”, Wikipedia (wersja angielska), https://en.wikipedia.org/wiki/The_Notorious_B.I.G. [dostęp: 29.09.2026]
-- „Notorious (2009 film)”, Wikipedia (wersja angielska), https://en.wikipedia.org/wiki/Notorious_(2009_film) [dostęp: 29.09.2026]
-- „Notorious (2009)”, IMDb, https://www.imdb.com/title/tt0472198/ [dostęp: 29.09.2026]
 
 ### Travis Scott
 
