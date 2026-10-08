@@ -30,6 +30,8 @@ Kluczowe pliki klienta: `MainActivity` (start + logowanie admina) · `CategoryAc
 ## Uruchomienie
 
 1. Backend: XAMPP (Apache + MySQL) → katalog `quiz_api/` do `htdocs/`, baza `quizdb` (MySQL, lokalnie `root` bez hasła — konfiguracja deweloperska).
+   Bazę (struktura + 44 kategorie i 440 pytań) tworzy import pliku [`database/quizdb.sql`](database/quizdb.sql):
+   `mysql -u root < database/quizdb.sql` albo phpMyAdmin → Import. Konto demo administratora: login `admin`, hasło `tunecheck`.
 2. Aplikacja: Android Studio → emulator łączy się z backendem przez `http://10.0.2.2/quiz_api/`.
 
 ```bash
