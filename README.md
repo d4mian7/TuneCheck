@@ -36,7 +36,8 @@ Kluczowe pliki klienta: `MainActivity` (start + logowanie admina) · `CategoryAc
 
 ```bash
 ./gradlew assembleDebug   # build
-./gradlew test            # testy jednostkowe
+./gradlew test            # testy jednostkowe (app/src/test, 10 testów)
+C:\xampp\php\php.exe tests\api_test.php   # testy integracyjne API + bazy (31 testów, wymaga XAMPP)
 ```
 
 Min SDK 26 · Target SDK 36 · Java 11.

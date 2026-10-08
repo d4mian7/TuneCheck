@@ -10,6 +10,15 @@ import java.io.IOException
 
 class ResultActivity : AppCompatActivity() {
 
+    companion object {
+        // podpis pod wynikiem w poprawnej formie: 1 POPRAWNA, 2-4 POPRAWNE, 0 i 5 POPRAWNYCH
+        fun scoreCaption(score: Int): String = when {
+            score == 1 -> "POPRAWNA"
+            score in 2..4 -> "POPRAWNE"
+            else -> "POPRAWNYCH"
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
@@ -29,11 +38,7 @@ class ResultActivity : AppCompatActivity() {
 
         tvPlayer.text = "Gracz: $username"
         tvScore.text = "$score/$total"
-        tvScoreCaption.text = when {
-            score == 1 -> "POPRAWNA"
-            score in 2..4 -> "POPRAWNE"
-            else -> "POPRAWNYCH"
-        }
+        tvScoreCaption.text = scoreCaption(score)
         scoreRing.progress = if (total > 0) score * 100 / total else 0
 
         btnBack.setOnClickListener {

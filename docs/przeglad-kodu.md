@@ -95,9 +95,15 @@ Błąd 1 potwierdzony po poprawce żądaniem `curl` (score=0 → `{"status":"ok"
 
 ## 7. Testy
 
-- **Brak testów automatycznych.** Szablonowe testy z Android Studio usunięto 04.10.2026, bo niczego nie sprawdzały.
-- Dotychczas: testy ręczne na telefonie (Samsung Galaxy S24+) i ręczne wywołania API.
-- Wymagania seminarium (19.10) i spisu treści (5.6–5.9): trzeba dodać testy i ich wyniki.
+**Dodane 08.10.2026:**
+- **Testy jednostkowe** `app/src/test/java/com/example/quizapp/QuizLogicTest.kt` (JUnit, 10 testów, `./gradlew test`):
+  litery w kółkach kategorii (`CategoryActivity.monogram`), odmiana podpisu wyniku (`ResultActivity.scoreCaption`),
+  bezpieczne odczytywanie odpowiedzi serwera (`ApiClient.jsonArrayOrNull` / `jsonObjectOrNull`). Wynik: 10/10.
+- **Testy integracyjne** `tests/api_test.php` (PHP, 31 testów, `C:\xampp\php\php.exe tests\api_test.php`):
+  prawdziwe żądania HTTP do API + sprawdzenie w bazie zapisu, odczytu i usuwania danych; bezpieczeństwo
+  (złe hasło, SQL injection, brak/zły/stary token). Wynik: 31/31; po teście baza wraca do stanu sprzed testu.
+- Kontrola, że testy wykrywają błędy: po celowym przywróceniu błędu „wynik 0/5” 2 testy zgłosiły BŁĄD (29/31).
+- Testy akceptacyjne: ręczna lista 19 scenariuszy na telefonie (07.10.2026), wszystkie zaliczone po poprawkach.
 
 ## 8. Niespójności w dokumentacji
 
